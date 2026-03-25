@@ -15,8 +15,22 @@
       align-items: center;
       padding: 20px;
     }
-    h1 { color: #fff; font-size: 18px; font-weight: 500; margin-bottom: 6px; }
-    .subtitle { color: #666; font-size: 12px; margin-bottom: 20px; }
+    h1 { color: #fff; font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+    .subtitle { color: #666; font-size: 12px; margin-bottom: 4px; }
+    .authors { color: #888; font-size: 11px; margin-bottom: 20px; }
+    
+    .main-container { display: flex; gap: 40px; align-items: flex-start; }
+    
+    .paper-box { width: 260px; padding: 16px; background: #111; border-radius: 12px; border: 1px solid #222; }
+    .paper-title { color: #999; font-size: 10px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .paper-name { color: #fff; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .paper-cite { color: #666; font-size: 10px; margin-bottom: 12px; font-style: italic; }
+    .paper-problem { color: #aaa; font-size: 11px; margin-bottom: 12px; line-height: 1.4; }
+    .solutions-title { color: #888; font-size: 10px; margin-bottom: 8px; text-transform: uppercase; }
+    .solution-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+    .solution-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+    .solution-text { color: #ccc; font-size: 11px; line-height: 1.3; }
+    
     .phone { background: #000; border-radius: 44px; padding: 10px; }
     .phone-inner { width: 300px; height: 620px; border-radius: 36px; overflow: hidden; position: relative; }
     .feed { position: absolute; top: 0; left: 0; right: 0; transition: transform 0.5s ease; }
@@ -40,130 +54,176 @@
     .prompt-btn { background: #5b5fc7; color: #fff; border: none; padding: 10px; border-radius: 18px; font-size: 11px; width: 100%; }
     .mood-btns { display: flex; gap: 6px; margin-bottom: 8px; }
     .mood-btn { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 10px; }
-    .screen-info { color: #888; font-size: 11px; margin-top: 16px; text-align: center; max-width: 300px; min-height: 20px; }
-    .legend { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; max-width: 500px; }
-    .legend-item { display: flex; align-items: center; gap: 6px; color: #666; font-size: 10px; }
-    .legend-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .screen-info { color: #888; font-size: 11px; margin-top: 12px; text-align: center; min-height: 20px; }
     .swipe-hand { position: absolute; bottom: 80px; right: 30px; font-size: 28px; opacity: 0; z-index: 100; animation: swipeUp 0.6s ease-out; pointer-events: none; }
     @keyframes swipeUp {
       0% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-60px); }
     }
+    .active-solution { background: rgba(91, 95, 199, 0.15); border-radius: 4px; padding: 2px 4px; margin: -2px -4px; }
   </style>
 </head>
 <body>
   <h1>Social Media Redesign Demo</h1>
-  <p class="subtitle">Interventions for well-being based on Irmer & Schmiedek (2023) and Yan et al. (2024), Henry Chen.</p>
-  <div class="phone">
-    <div class="phone-inner" id="phoneInner">
-      <div class="feed" id="feed">
-        <div class="video-item" style="background: linear-gradient(160deg, #1a1a2e, #16213e);">
-          <div class="status-bar"><span>9:41</span><span>🔋</span></div>
-          <div class="top-tags"><span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span></div>
-          <div class="video-content">[Video]</div>
-          <div class="side-icons"><div>♥<br>24K</div><div>💬<br>1.2K</div><div>↗<br>Share</div></div>
-          <div class="overlay"><div class="username">@fitness_daily</div><div class="caption">Morning workout routine</div><div class="hashtags">#fitness #gym</div></div>
-          <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
-        </div>
-        <div class="video-item" style="background: linear-gradient(160deg, #1e1e3f, #12122e);">
-          <div class="status-bar"><span>9:41</span><span>🔋</span></div>
-          <div class="top-tags"><span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span></div>
-          <div class="video-content">[Video]</div>
-          <div class="side-icons"><div>♥<br>89K</div><div>💬<br>3.1K</div><div>↗<br>Share</div></div>
-          <div class="overlay"><div class="username">@gym_beast</div><div class="caption">Leg day essentials</div><div class="hashtags">#legday #gains</div></div>
-          <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
-        </div>
-        <div class="video-item" style="background: linear-gradient(160deg, #1e3a5f, #0d253f);">
-          <div class="status-bar"><span>9:41</span><span>🔋</span></div>
-          <div class="top-tags">
-            <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Lifestyle</span>
-            <span class="tag" style="background: #f59e0b; color: #000;">Edited</span>
-            <div class="info-banner" style="background: rgba(0,0,0,0.5); border-left: 3px solid #f59e0b;">
-              <div style="color: #f59e0b; font-weight: 600;">REALITY CHECK</div>
-              <div style="color: #ccc;">Team of 8 + $50K equipment</div>
-            </div>
-          </div>
-          <div class="video-content">[Video]</div>
-          <div class="side-icons"><div>♥<br>892K</div><div>💬<br>12K</div><div>↗<br>Share</div></div>
-          <div class="overlay"><div class="username">@luxury_life <span style="background:#f59e0b;color:#000;font-size:8px;padding:2px 5px;border-radius:3px;">PAID</span></div><div class="caption">My morning in Maldives</div></div>
-          <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
-        </div>
-        <div class="video-item" style="background: #1a365d;">
-          <div class="status-bar"><span>9:41</span><span>🔋</span></div>
-          <div class="top-tags"><div class="info-banner" style="background: #f59e0b; text-align: center; color: #000; font-weight: 600;">⏸ Ad break - 30 videos watched</div></div>
-          <div style="text-align: center; padding: 60px 20px;">
-            <div style="width: 80px; height: 80px; background: #4a90d9; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 32px;">📦</div>
-            <div style="color: #fff; font-size: 16px; font-weight: 600;">Summer Sale</div>
-            <div style="color: #aaa; font-size: 11px; margin-top: 6px;">50% off everything</div>
-            <div style="margin-top: 30px;"><span style="background: #333; color: #fff; padding: 6px 14px; border-radius: 14px; font-size: 10px;">Skip in 5s</span></div>
-          </div>
-          <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
-        </div>
-        <div class="video-item" style="background: #2a2a2a;">
-          <div class="status-bar"><span style="color:#666;">9:41</span><span style="color:#666;">🔋</span></div>
-          <div class="top-tags">
-            <span class="tag" style="background: #3a3a3a; color: #666;">Fitness</span>
-            <div class="info-banner" style="background: #333; text-align: center; color: #777;">⏱ Scrolling for 45 minutes</div>
-          </div>
-          <div class="video-content" style="color: #333;">[Colors fading]</div>
-          <div class="side-icons" style="color: #555;"><div>♥<br>18K</div><div>💬<br>900</div><div>↗<br>Share</div></div>
-          <div class="overlay" style="color: #666;"><div class="username">@fit_life</div><div class="caption">30 day challenge</div></div>
-          <div class="nav-bar" style="background: #111;"><span style="color:#444;">Home</span><span style="color:#444;">Search</span><span style="background:#444;color:#222;padding:3px 8px;border-radius:3px;">+</span><span style="color:#444;">Inbox</span><span style="color:#444;">Me</span></div>
-        </div>
-        <div class="video-item" style="background: linear-gradient(160deg, #1a1a2e, #16213e);">
-          <div class="status-bar"><span>9:41</span><span>🔋</span></div>
-          <div class="top-tags">
-            <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span>
-            <div class="info-banner" style="background: rgba(245,158,11,0.15); color: #f59e0b;">📊 18 fitness videos in a row</div>
-          </div>
-          <div class="video-content" style="height: 200px;">[Video]</div>
-          <div class="prompt-card">
-            <h3>How are you feeling?</h3>
-            <p>You've watched a lot of similar content</p>
-            <div class="mood-btns"><button class="mood-btn">😊 Good</button><button class="mood-btn">😐 Meh</button><button class="mood-btn">😔 Low</button></div>
-            <button class="prompt-btn">🔀 Show me something different</button>
-          </div>
-          <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
-        </div>
-        <div class="video-item" style="background: linear-gradient(160deg, #1a3d2e, #0d2818);">
-          <div class="status-bar"><span>9:41</span><span>🔋</span></div>
-          <div class="top-tags">
-            <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Cooking</span>
-            <span class="tag" style="background: rgba(74,222,128,0.2); color: #4ade80;">👤 Regular creator</span>
-            <div class="info-banner" style="background: rgba(34,197,94,0.15); color: #4ade80;">✓ Switched to: Cooking</div>
-          </div>
-          <div class="video-content">[Cooking video]</div>
-          <div class="side-icons"><div>♥<br>2.3K</div><div>💬<br>89</div><div>↗<br>Share</div></div>
-          <div class="overlay"><div class="username">@home_cooking</div><div class="caption">Easy 5-min pasta</div><div class="hashtags">#cooking #easy</div></div>
-          <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
-        </div>
-        <div class="video-item" style="background: #252530;">
-          <div class="status-bar"><span style="color:#888;">9:41</span><span style="color:#888;">🔋</span></div>
-          <div class="top-tags">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span class="tag" style="background: #3a3a3a; color: #888;">Science</span>
-              <span style="background: #000; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">2:47</span>
-            </div>
-            <div class="info-banner" style="background: #333; text-align: center; color: #777;">Extended session - longer content</div>
-          </div>
-          <div class="video-content" style="color: #444;">[Longer video]</div>
-          <div style="position: absolute; bottom: 130px; left: 12px; right: 12px; height: 3px; background: #333; border-radius: 2px;"><div style="width: 35%; height: 100%; background: #fff; border-radius: 2px;"></div></div>
-          <div class="side-icons" style="color: #666;"><div>♥<br>12K</div><div>💬<br>756</div><div>↗<br>Share</div></div>
-          <div class="overlay" style="color: #888;"><div class="username">@science_explained</div><div class="caption">How black holes work</div></div>
-          <div class="nav-bar" style="background: #111;"><span style="color:#555;">Home</span><span style="color:#555;">Search</span><span style="background:#555;color:#222;padding:3px 8px;border-radius:3px;">+</span><span style="color:#555;">Inbox</span><span style="color:#555;">Me</span></div>
-        </div>
+  <p class="subtitle">Interventions for well-being based on Irmer & Schmiedek (2023) and Yan et al. (2024)</p>
+  <p class="authors">Eric Kim & Henry Chen</p>
+  
+  <div class="main-container">
+    
+    <!-- Left: Paper 1 -->
+    <div class="paper-box">
+      <div class="paper-title">Paper 1</div>
+      <div class="paper-name">Upward Comparison & Well-being</div>
+      <div class="paper-cite">Irmer & Schmiedek (2023)</div>
+      <div class="paper-problem">Social media triggers upward comparisons (feeling others are better off), which negatively impacts self-worth and well-being in youth.</div>
+      <div class="solutions-title">Solutions in Demo</div>
+      <div class="solution-item" id="sol-reality">
+        <div class="solution-dot" style="background: #f59e0b;"></div>
+        <div class="solution-text"><strong>Reality check</strong> - shows creator's resources/team size</div>
+      </div>
+      <div class="solution-item" id="sol-paid">
+        <div class="solution-dot" style="background: #f59e0b;"></div>
+        <div class="solution-text"><strong>Paid/Edited badges</strong> - flags sponsored & produced content</div>
+      </div>
+      <div class="solution-item" id="sol-mood">
+        <div class="solution-dot" style="background: #5b5fc7;"></div>
+        <div class="solution-text"><strong>Mood check-in</strong> - asks how user is feeling after similar content</div>
+      </div>
+      <div class="solution-item" id="sol-regular">
+        <div class="solution-dot" style="background: #4ade80;"></div>
+        <div class="solution-text"><strong>Regular creator badge</strong> - highlights non-influencer content</div>
       </div>
     </div>
+    
+    <!-- Center: Phone -->
+    <div>
+      <div class="phone">
+        <div class="phone-inner" id="phoneInner">
+          <div class="feed" id="feed">
+            <div class="video-item" style="background: linear-gradient(160deg, #1a1a2e, #16213e);">
+              <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+              <div class="top-tags"><span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span></div>
+              <div class="video-content">[Video]</div>
+              <div class="side-icons"><div>♥<br>24K</div><div>💬<br>1.2K</div><div>↗<br>Share</div></div>
+              <div class="overlay"><div class="username">@fitness_daily</div><div class="caption">Morning workout routine</div><div class="hashtags">#fitness #gym</div></div>
+              <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
+            </div>
+            <div class="video-item" style="background: linear-gradient(160deg, #1e1e3f, #12122e);">
+              <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+              <div class="top-tags"><span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span></div>
+              <div class="video-content">[Video]</div>
+              <div class="side-icons"><div>♥<br>89K</div><div>💬<br>3.1K</div><div>↗<br>Share</div></div>
+              <div class="overlay"><div class="username">@gym_beast</div><div class="caption">Leg day essentials</div><div class="hashtags">#legday #gains</div></div>
+              <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
+            </div>
+            <div class="video-item" style="background: linear-gradient(160deg, #1e3a5f, #0d253f);">
+              <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+              <div class="top-tags">
+                <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Lifestyle</span>
+                <span class="tag" style="background: #f59e0b; color: #000;">Edited</span>
+                <div class="info-banner" style="background: rgba(0,0,0,0.5); border-left: 3px solid #f59e0b;">
+                  <div style="color: #f59e0b; font-weight: 600;">REALITY CHECK</div>
+                  <div style="color: #ccc;">Team of 8 + $50K equipment</div>
+                </div>
+              </div>
+              <div class="video-content">[Video]</div>
+              <div class="side-icons"><div>♥<br>892K</div><div>💬<br>12K</div><div>↗<br>Share</div></div>
+              <div class="overlay"><div class="username">@luxury_life <span style="background:#f59e0b;color:#000;font-size:8px;padding:2px 5px;border-radius:3px;">PAID</span></div><div class="caption">My morning in Maldives</div></div>
+              <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
+            </div>
+            <div class="video-item" style="background: #1a365d;">
+              <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+              <div class="top-tags"><div class="info-banner" style="background: #f59e0b; text-align: center; color: #000; font-weight: 600;">⏸ Ad break - 30 videos watched</div></div>
+              <div style="text-align: center; padding: 60px 20px;">
+                <div style="width: 80px; height: 80px; background: #4a90d9; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 32px;">📦</div>
+                <div style="color: #fff; font-size: 16px; font-weight: 600;">Summer Sale</div>
+                <div style="color: #aaa; font-size: 11px; margin-top: 6px;">50% off everything</div>
+                <div style="margin-top: 30px;"><span style="background: #333; color: #fff; padding: 6px 14px; border-radius: 14px; font-size: 10px;">Skip in 5s</span></div>
+              </div>
+              <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
+            </div>
+            <div class="video-item" style="background: #2a2a2a;">
+              <div class="status-bar"><span style="color:#666;">9:41</span><span style="color:#666;">🔋</span></div>
+              <div class="top-tags">
+                <span class="tag" style="background: #3a3a3a; color: #666;">Fitness</span>
+                <div class="info-banner" style="background: #333; text-align: center; color: #777;">⏱ Scrolling for 45 minutes</div>
+              </div>
+              <div class="video-content" style="color: #333;">[Colors fading]</div>
+              <div class="side-icons" style="color: #555;"><div>♥<br>18K</div><div>💬<br>900</div><div>↗<br>Share</div></div>
+              <div class="overlay" style="color: #666;"><div class="username">@fit_life</div><div class="caption">30 day challenge</div></div>
+              <div class="nav-bar" style="background: #111;"><span style="color:#444;">Home</span><span style="color:#444;">Search</span><span style="background:#444;color:#222;padding:3px 8px;border-radius:3px;">+</span><span style="color:#444;">Inbox</span><span style="color:#444;">Me</span></div>
+            </div>
+            <div class="video-item" style="background: linear-gradient(160deg, #1a1a2e, #16213e);">
+              <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+              <div class="top-tags">
+                <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span>
+                <div class="info-banner" style="background: rgba(245,158,11,0.15); color: #f59e0b;">📊 18 fitness videos in a row</div>
+              </div>
+              <div class="video-content" style="height: 200px;">[Video]</div>
+              <div class="prompt-card">
+                <h3>How are you feeling?</h3>
+                <p>You've watched a lot of similar content</p>
+                <div class="mood-btns"><button class="mood-btn">😊 Good</button><button class="mood-btn">😐 Meh</button><button class="mood-btn">😔 Low</button></div>
+                <button class="prompt-btn">🔀 Show me something different</button>
+              </div>
+              <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
+            </div>
+            <div class="video-item" style="background: linear-gradient(160deg, #1a3d2e, #0d2818);">
+              <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+              <div class="top-tags">
+                <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Cooking</span>
+                <span class="tag" style="background: rgba(74,222,128,0.2); color: #4ade80;">👤 Regular creator</span>
+                <div class="info-banner" style="background: rgba(34,197,94,0.15); color: #4ade80;">✓ Switched to: Cooking</div>
+              </div>
+              <div class="video-content">[Cooking video]</div>
+              <div class="side-icons"><div>♥<br>2.3K</div><div>💬<br>89</div><div>↗<br>Share</div></div>
+              <div class="overlay"><div class="username">@home_cooking</div><div class="caption">Easy 5-min pasta</div><div class="hashtags">#cooking #easy</div></div>
+              <div class="nav-bar"><span>Home</span><span>Search</span><span style="background:#fff;color:#000;padding:3px 8px;border-radius:3px;">+</span><span>Inbox</span><span>Me</span></div>
+            </div>
+            <div class="video-item" style="background: #252530;">
+              <div class="status-bar"><span style="color:#888;">9:41</span><span style="color:#888;">🔋</span></div>
+              <div class="top-tags">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="tag" style="background: #3a3a3a; color: #888;">Science</span>
+                  <span style="background: #000; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">2:47</span>
+                </div>
+                <div class="info-banner" style="background: #333; text-align: center; color: #777;">Extended session - longer content</div>
+              </div>
+              <div class="video-content" style="color: #444;">[Longer video]</div>
+              <div style="position: absolute; bottom: 130px; left: 12px; right: 12px; height: 3px; background: #333; border-radius: 2px;"><div style="width: 35%; height: 100%; background: #fff; border-radius: 2px;"></div></div>
+              <div class="side-icons" style="color: #666;"><div>♥<br>12K</div><div>💬<br>756</div><div>↗<br>Share</div></div>
+              <div class="overlay" style="color: #888;"><div class="username">@science_explained</div><div class="caption">How black holes work</div></div>
+              <div class="nav-bar" style="background: #111;"><span style="color:#555;">Home</span><span style="color:#555;">Search</span><span style="background:#555;color:#222;padding:3px 8px;border-radius:3px;">+</span><span style="color:#555;">Inbox</span><span style="color:#555;">Me</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="screen-info" id="info"></div>
+    </div>
+    
+    <!-- Right: Paper 2 -->
+    <div class="paper-box">
+      <div class="paper-title">Paper 2</div>
+      <div class="paper-name">Attention & Self-Control</div>
+      <div class="paper-cite">Yan et al. (2024)</div>
+      <div class="paper-problem">Short video addiction is linked to reduced executive control and lower self-control, measured via EEG frontal theta activity.</div>
+      <div class="solutions-title">Solutions in Demo</div>
+      <div class="solution-item" id="sol-ad">
+        <div class="solution-dot" style="background: #f59e0b;"></div>
+        <div class="solution-text"><strong>Ad breaks</strong> - forced pause every 30 videos to interrupt dopamine loop</div>
+      </div>
+      <div class="solution-item" id="sol-desat">
+        <div class="solution-dot" style="background: #666;"></div>
+        <div class="solution-text"><strong>Desaturation</strong> - colors gradually fade over extended use</div>
+      </div>
+      <div class="solution-item" id="sol-longer">
+        <div class="solution-dot" style="background: #666;"></div>
+        <div class="solution-text"><strong>Longer videos</strong> - algorithm shifts to 2-3 min content to break rapid consumption</div>
+      </div>
+    </div>
+    
   </div>
-  <div class="screen-info" id="info"></div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div>Reality check</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div>Paid/Edited badges</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#5b5fc7;"></div>Mood check-in</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#4ade80;"></div>Regular creator</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#666;"></div>Desaturation</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#666;"></div>Longer videos</div>
-  </div>
+  
   <script>
     var feed = document.getElementById('feed');
     var phoneInner = document.getElementById('phoneInner');
@@ -181,6 +241,33 @@
       "Switched content + Regular creator badge",
       "Longer videos (2:47)"
     ];
+    
+    // Which solutions are active per screen
+    var activeSolutions = [
+      [],
+      [],
+      ['sol-reality', 'sol-paid'],
+      ['sol-ad'],
+      ['sol-desat'],
+      ['sol-mood'],
+      ['sol-regular'],
+      ['sol-longer']
+    ];
+    
+    function clearHighlights() {
+      document.querySelectorAll('.solution-item').forEach(function(el) {
+        el.classList.remove('active-solution');
+      });
+    }
+    
+    function highlightSolutions(index) {
+      clearHighlights();
+      activeSolutions[index].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.add('active-solution');
+      });
+    }
+    
     function showSwipe() {
       var hand = document.createElement('div');
       hand.className = 'swipe-hand';
@@ -188,10 +275,13 @@
       phoneInner.appendChild(hand);
       setTimeout(function() { hand.remove(); }, 600);
     }
+    
     function scrollToVideo(index) {
       feed.style.transform = 'translateY(-' + (index * videoHeight) + 'px)';
       info.textContent = descriptions[index];
+      highlightSolutions(index);
     }
+    
     function autoScroll() {
       if (currentVideo < totalVideos - 1) {
         showSwipe();
@@ -204,6 +294,7 @@
         scrollToVideo(0);
       }
     }
+    
     scrollToVideo(0);
     setInterval(autoScroll, 2500);
   </script>
