@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Redesign - HCI Project</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+      background: #111; 
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    h1 { color: #fff; font-size: 20px; font-weight: 500; margin-bottom: 8px; text-align: center; }
+    .subtitle { color: #888; font-size: 13px; margin-bottom: 24px; text-align: center; }
+    
+    .phone-container {
+      background: #000;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    
+    .screen { display: none; }
+    .screen.active { display: block; }
+    
+    .phone-screen { 
+      width: 320px;
+      background: #111; 
+      border-radius: 36px; 
+      min-height: 640px; 
+      position: relative; 
+      overflow: hidden; 
+    }
+    
+    .status-bar { 
+      display: flex; 
+      justify-content: space-between; 
+      padding: 14px 24px 8px; 
+      color: #fff; 
+      font-size: 13px; 
+      font-weight: 500;
+    }
+    
+    .video-area { 
+      height: 380px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      color: #444;
+      font-size: 13px;
+    }
+    
+    .bottom-ui { 
+      position: absolute; 
+      bottom: 70px; 
+      left: 16px; 
+      right: 60px; 
+      color: #fff; 
+    }
+    
+    .nav-bar { 
+      position: absolute; 
+      bottom: 0; 
+      left: 0; 
+      right: 0; 
+      display: flex; 
+      justify-content: space-around; 
+      align-items: center;
+      padding: 14px 0; 
+      background: #000; 
+    }
+    .nav-bar span { color: #888; font-size: 10px; }
+    .nav-plus { background: #fff; color: #000; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+    
+    .tag { 
+      display: inline-block; 
+      padding: 5px 12px; 
+      border-radius: 14px; 
+      font-size: 11px; 
+      margin-right: 6px; 
+    }
+    
+    .side-icons { 
+      position: absolute; 
+      right: 12px; 
+      top: 220px; 
+      text-align: center; 
+      color: #fff; 
+      font-size: 11px; 
+    }
+    .side-icons div { margin-bottom: 18px; }
+    .side-icons .icon { font-size: 22px; margin-bottom: 2px; }
+    
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .btn {
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #444; }
+    .btn-primary { background: #5b5fc7; }
+    .btn-primary:hover { background: #4a4eb3; }
+    
+    .screen-indicator {
+      display: flex;
+      gap: 6px;
+      margin-top: 16px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #333;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .dot.active { background: #5b5fc7; }
+    .dot:hover { background: #555; }
+    
+    .screen-label {
+      color: #666;
+      font-size: 12px;
+      margin-top: 12px;
+      text-align: center;
+    }
+    
+    .prompt-card { 
+      background: #fff; 
+      border-radius: 16px; 
+      padding: 16px; 
+      margin: 12px 16px; 
+      text-align: center; 
+    }
+    .prompt-card h3 { color: #111; font-size: 15px; margin: 0 0 4px; font-weight: 600; }
+    .prompt-card p { color: #666; font-size: 11px; margin: 0 0 12px; }
+    .prompt-btn { 
+      background: #5b5fc7; 
+      color: #fff; 
+      border: none; 
+      padding: 10px 20px; 
+      border-radius: 20px; 
+      font-size: 12px; 
+      cursor: pointer; 
+      width: 100%; 
+    }
+    
+    .mood-btns {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .mood-btn {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .mood-btn:hover { background: #f5f5f5; }
+    
+    .info-box {
+      margin: 8px 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+    }
+    
+    .legend {
+      margin-top: 32px;
+      padding: 20px;
+      background: #1a1a1a;
+      border-radius: 16px;
+      max-width: 400px;
+    }
+    .legend h3 { color: #fff; font-size: 14px; margin-bottom: 12px; }
+    .legend-item { 
+      display: flex; 
+      align-items: flex-start; 
+      margin-bottom: 10px;
+      color: #aaa;
+      font-size: 12px;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 10px;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Social Media Redesign for Well-being</h1>
+  <p class="subtitle">Based on Irmer & Schmiedek (2023) and Yan et al. (2024)</p>
+
+  <div class="phone-container">
+    
+    <!-- Screen 1: Normal feed -->
+    <div class="screen active" id="s1">
+      <div class="phone-screen" style="background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%);">
+        <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+        
+        <div style="padding: 8px 16px;">
+          <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span>
+        </div>
+        
+        <div class="video-area">[Video content]</div>
+        
+        <div class="side-icons">
+          <div><div class="icon">♥</div>24.5K</div>
+          <div><div class="icon">💬</div>1.2K</div>
+          <div><div class="icon">↗</div>Share</div>
+        </div>
+        
+        <div class="bottom-ui">
+          <div style="font-weight: 600; font-size: 14px;">@fitness_daily</div>
+          <div style="font-size: 12px; opacity: 0.8; margin-top: 4px;">Morning workout routine</div>
+          <div style="font-size: 11px; opacity: 0.5; margin-top: 4px;">#fitness #gym #motivation</div>
+        </div>
+        
+        <div class="nav-bar">
+          <span>Home</span><span>Search</span><span class="nav-plus">+</span><span>Inbox</span><span>Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 2: Reality check + Curated indicator -->
+    <div class="screen" id="s2">
+      <div class="phone-screen" style="background: linear-gradient(160deg, #1e3a5f 0%, #0d253f 100%);">
+        <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+        
+        <div style="padding: 8px 16px;">
+          <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Lifestyle</span>
+          <span class="tag" style="background: #f59e0b; color: #000; font-weight: 500;">Edited</span>
+        </div>
+        
+        <!-- UPWARD COMPARISON SOLUTION 1: Reality check -->
+        <div class="info-box" style="background: rgba(0,0,0,0.4); border-left: 3px solid #f59e0b;">
+          <div style="color: #f59e0b; font-weight: 600; margin-bottom: 2px;">REALITY CHECK</div>
+          <div style="color: #ccc;">Creator has a team of 8 + $50K equipment</div>
+        </div>
+        
+        <div class="video-area" style="height: 320px;">[Luxury lifestyle video]</div>
+        
+        <div class="side-icons" style="top: 260px;">
+          <div><div class="icon">♥</div>892K</div>
+          <div><div class="icon">💬</div>12K</div>
+          <div><div class="icon">↗</div>Share</div>
+        </div>
+        
+        <div class="bottom-ui">
+          <!-- UPWARD COMPARISON SOLUTION 2: Paid indicator -->
+          <div style="font-weight: 600; font-size: 14px;">@luxury_life <span style="background:#f59e0b;color:#000;font-size:9px;padding:2px 6px;border-radius:4px;margin-left:4px;font-weight:600;">PAID</span></div>
+          <div style="font-size: 12px; opacity: 0.8; margin-top: 4px;">My morning in the Maldives</div>
+        </div>
+        
+        <div class="nav-bar">
+          <span>Home</span><span>Search</span><span class="nav-plus">+</span><span>Inbox</span><span>Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Ad break -->
+    <div class="screen" id="s3">
+      <div class="phone-screen" style="background: #1a365d;">
+        <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+        
+        <!-- ATTENTION SOLUTION 1: Ad break -->
+        <div class="info-box" style="background: #f59e0b; text-align: center;">
+          <span style="color: #000; font-weight: 600;">⏸ Ad break - 30 videos watched</span>
+        </div>
+        
+        <div style="padding: 30px 20px; text-align: center;">
+          <div style="background: #2d4a6f; border-radius: 16px; padding: 40px; margin-bottom: 20px;">
+            <div style="width: 70px; height: 70px; background: #4a90d9; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 28px;">📦</div>
+          </div>
+          <div style="color: #fff; font-size: 18px; font-weight: 600;">Summer Sale</div>
+          <div style="color: #aaa; font-size: 12px; margin-top: 6px;">Limited time offer</div>
+          <button style="background: #4a90d9; color: #fff; border: none; padding: 12px 32px; border-radius: 24px; font-size: 13px; margin-top: 20px; cursor: pointer;">Shop Now</button>
+          <div style="margin-top: 20px;"><span style="background: #333; color: #fff; padding: 6px 16px; border-radius: 16px; font-size: 11px;">Skip in 5s</span></div>
+        </div>
+        
+        <div class="nav-bar">
+          <span>Home</span><span>Search</span><span class="nav-plus">+</span><span>Inbox</span><span>Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 4: Desaturated -->
+    <div class="screen" id="s4">
+      <div class="phone-screen" style="background: #2a2a2a;">
+        <div class="status-bar"><span style="color:#777;">9:41</span><span style="color:#777;">🔋</span></div>
+        
+        <!-- ATTENTION SOLUTION 2: Time warning + desaturation -->
+        <div class="info-box" style="background: #333; text-align: center;">
+          <span style="color: #888;">⏱ You've been scrolling for 45 minutes</span>
+        </div>
+        
+        <div style="padding: 8px 16px;">
+          <span class="tag" style="background: #3a3a3a; color: #666;">Fitness</span>
+        </div>
+        
+        <div class="video-area" style="color: #333;">[Colors fading]</div>
+        
+        <div class="side-icons" style="color: #555;">
+          <div><div class="icon">♥</div>24.5K</div>
+          <div><div class="icon">💬</div>1.2K</div>
+          <div><div class="icon">↗</div>Share</div>
+        </div>
+        
+        <div class="bottom-ui" style="color: #666;">
+          <div style="font-weight: 600; font-size: 14px;">@fitness_daily</div>
+          <div style="font-size: 12px; opacity: 0.8; margin-top: 4px;">Morning workout routine</div>
+        </div>
+        
+        <div class="nav-bar" style="background: #1a1a1a;">
+          <span style="color:#444;">Home</span><span style="color:#444;">Search</span><span class="nav-plus" style="background:#444;color:#222;">+</span><span style="color:#444;">Inbox</span><span style="color:#444;">Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 5: Mood check + Switch prompt -->
+    <div class="screen" id="s5">
+      <div class="phone-screen" style="background: linear-gradient(160deg, #1a1a2e 0%, #16213e 100%);">
+        <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+        
+        <div class="info-box" style="background: rgba(245,158,11,0.15);">
+          <span style="color: #f59e0b;">📊 18 fitness videos in a row</span>
+        </div>
+        
+        <div style="padding: 8px 16px;">
+          <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Fitness</span>
+        </div>
+        
+        <div class="video-area" style="height: 200px;">[Video content]</div>
+        
+        <!-- UPWARD COMPARISON SOLUTION 3: Mood check-in -->
+        <div class="prompt-card">
+          <h3>How are you feeling?</h3>
+          <p>You've watched a lot of similar content</p>
+          <div class="mood-btns">
+            <button class="mood-btn">😊 Good</button>
+            <button class="mood-btn">😐 Meh</button>
+            <button class="mood-btn">😔 Low</button>
+          </div>
+          <button class="prompt-btn">🔀 Show me something different</button>
+        </div>
+        
+        <div class="nav-bar">
+          <span>Home</span><span>Search</span><span class="nav-plus">+</span><span>Inbox</span><span>Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 6: Switched content + Regular creator -->
+    <div class="screen" id="s6">
+      <div class="phone-screen" style="background: linear-gradient(160deg, #1a3d2e 0%, #0d2818 100%);">
+        <div class="status-bar"><span>9:41</span><span>🔋</span></div>
+        
+        <div class="info-box" style="background: rgba(34,197,94,0.15);">
+          <span style="color: #4ade80;">✓ Switched to: Cooking</span>
+        </div>
+        
+        <div style="padding: 8px 16px;">
+          <span class="tag" style="background: rgba(255,255,255,0.15); color: #fff;">Cooking</span>
+          <!-- UPWARD COMPARISON SOLUTION 4: Regular creator badge -->
+          <span class="tag" style="background: rgba(74,222,128,0.2); color: #4ade80;">👤 Regular creator</span>
+        </div>
+        
+        <div class="video-area">[Cooking video]</div>
+        
+        <div class="side-icons">
+          <div><div class="icon">♥</div>2.3K</div>
+          <div><div class="icon">💬</div>89</div>
+          <div><div class="icon">↗</div>Share</div>
+        </div>
+        
+        <div class="bottom-ui">
+          <div style="font-weight: 600; font-size: 14px;">@home_cooking</div>
+          <div style="font-size: 12px; opacity: 0.8; margin-top: 4px;">Easy 5-min pasta recipe</div>
+          <div style="font-size: 11px; opacity: 0.5; margin-top: 4px;">#cooking #easyrecipes</div>
+        </div>
+        
+        <div class="nav-bar">
+          <span>Home</span><span>Search</span><span class="nav-plus">+</span><span>Inbox</span><span>Profile</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 7: Longer videos -->
+    <div class="screen" id="s7">
+      <div class="phone-screen" style="background: #252530;">
+        <div class="status-bar"><span style="color:#999;">9:41</span><span style="color:#999;">🔋</span></div>
+        
+        <!-- ATTENTION SOLUTION 3: Longer videos -->
+        <div class="info-box" style="background: #333; text-align: center;">
+          <span style="color: #888;">Extended session - showing longer content</span>
+        </div>
+        
+        <div style="padding: 8px 16px; display: flex; justify-content: space-between; align-items: center;">
+          <span class="tag" style="background: #3a3a3a; color: #999;">Science</span>
+          <span style="background: #000; color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600;">2:47</span>
+        </div>
+        
+        <div class="video-area" style="color: #444;">[Longer educational video]</div>
+        
+        <!-- Progress bar -->
+        <div style="margin: 0 16px; height: 3px; background: #333; border-radius: 2px;">
+          <div style="width: 35%; height: 100%; background: #fff; border-radius: 2px;"></div>
+        </div>
+        
+        <div class="side-icons" style="color: #666; top: 240px;">
+          <div><div class="icon">♥</div>12K</div>
+          <div><div class="icon">💬</div>756</div>
+          <div><div class="icon">↗</div>Share</div>
+        </div>
+        
+        <div class="bottom-ui" style="color: #888;">
+          <div style="font-weight: 600; font-size: 14px;">@science_explained</div>
+          <div style="font-size: 12px; opacity: 0.8; margin-top: 4px;">How black holes actually work</div>
+        </div>
+        
+        <div class="nav-bar" style="background: #1a1a1a;">
+          <span style="color:#555;">Home</span><span style="color:#555;">Search</span><span class="nav-plus" style="background:#555;color:#222;">+</span><span style="color:#555;">Inbox</span><span style="color:#555;">Profile</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Navigation dots -->
+  <div class="screen-indicator">
+    <div class="dot active" onclick="showScreen(1)"></div>
+    <div class="dot" onclick="showScreen(2)"></div>
+    <div class="dot" onclick="showScreen(3)"></div>
+    <div class="dot" onclick="showScreen(4)"></div>
+    <div class="dot" onclick="showScreen(5)"></div>
+    <div class="dot" onclick="showScreen(6)"></div>
+    <div class="dot" onclick="showScreen(7)"></div>
+  </div>
+
+  <div class="screen-label" id="screenLabel">Screen 1: Normal feed with category label</div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="btn" onclick="prevScreen()">← Previous</button>
+    <button class="btn btn-primary" onclick="nextScreen()">Next →</button>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <h3>Design Interventions</h3>
+    
+    <div style="color:#888; font-size:11px; margin-bottom:12px; font-weight:600;">UPWARD COMPARISON (Paper 1)</div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #f59e0b;"></div>
+      <div><strong style="color:#fff;">Reality check</strong> - shows creator's resources/team</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #f59e0b;"></div>
+      <div><strong style="color:#fff;">Paid/Edited badges</strong> - transparency on produced content</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #5b5fc7;"></div>
+      <div><strong style="color:#fff;">Mood check-in</strong> - asks how user is feeling</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #4ade80;"></div>
+      <div><strong style="color:#fff;">Regular creator badge</strong> - highlights non-influencer content</div>
+    </div>
+    
+    <div style="color:#888; font-size:11px; margin: 16px 0 12px; font-weight:600;">ATTENTION & SELF-CONTROL (Paper 2)</div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #f59e0b;"></div>
+      <div><strong style="color:#fff;">Ad breaks</strong> - forced pause every 30 videos</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #666;"></div>
+      <div><strong style="color:#fff;">Desaturation</strong> - colors fade over time</div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background: #666;"></div>
+      <div><strong style="color:#fff;">Longer videos</strong> - algorithm shifts to 2-3 min content</div>
+    </div>
+  </div>
+
+  <script>
+    let currentScreen = 1;
+    const totalScreens = 7;
+    const labels = [
+      "Screen 1: Normal feed with category label",
+      "Screen 2: Reality check + Paid/Edited indicators",
+      "Screen 3: Ad break after 30 videos",
+      "Screen 4: Gradual desaturation over time",
+      "Screen 5: Mood check-in + Switch prompt",
+      "Screen 6: Switched to relatable content",
+      "Screen 7: Longer video format (2:47)"
+    ];
+
+    function showScreen(n) {
+      currentScreen = n;
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+      document.getElementById('s' + n).classList.add('active');
+      document.querySelectorAll('.dot')[n-1].classList.add('active');
+      document.getElementById('screenLabel').textContent = labels[n-1];
+    }
+
+    function nextScreen() {
+      if (currentScreen < totalScreens) {
+        showScreen(currentScreen + 1);
+      } else {
+        showScreen(1);
+      }
+    }
+
+    function prevScreen() {
+      if (currentScreen > 1) {
+        showScreen(currentScreen - 1);
+      } else {
+        showScreen(totalScreens);
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        nextScreen();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevScreen();
+      }
+    });
+  </script>
+
+</body>
+</html>
